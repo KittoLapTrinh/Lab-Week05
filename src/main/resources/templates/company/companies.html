@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div>
+    <div>
+        <h1>List công ty để đăng tuyển dụng</h1>
+        <div th:switch="${companies}">
+            <h2 th:case="null">No companies yet!</h2>
+            <div th:case="*">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Name_com</th>
+                        <th>email_com</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="company : ${companies}">
+                        <td th:text="${company.getId()}"></td>
+                        <td th:text="${company.getComp_name()}"></td>
+                        <td th:text="${company.getEmail()}"></td>
+                        <td><a th:href="@{/companyrecruitment/{id}(id=${company.getId()})}">Đăng tin</a></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

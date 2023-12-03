@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+</style>
+<body>
+<div>
+    <div>
+        <h1>ứng tuyển</h1>
+        <div>
+            <p th:text="${candidate.phone}"></p>
+            <p th:text="${candidate.fullname}"></p>
+            <h5>Skill ứng viên</h5>
+            <div th:each="candidateSkills:${candidate.getCandidateSkills}">
+                <p th:if="${candidateSkills.getSkill() != null}" th:text="${candidateSkills.getSkill().getSkill_name()}"> </p>
+            </div>
+            <a th:href="@{/getcandidate/{id}(id=${candidate.id})}" >Lọc việc theo skill ứng viên</a>
+        </div>
+        <table th:each="company:${companies}">
+            <h4 th:text="${company.getComp_name()}"></h4>
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>job_desc</th>
+                <th>job_name</th>
+                <th>Skill</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="job: ${company.jobs}">
+                <td th:text="${job.getId()}"></td>
+                <td th:text="${job.getJob_desc()}"></td>
+                <td th:text="${job.getJob_name()}"></td>
+                <td>
+                    <div th:each="jobskill: ${job.getJobSkills()}">
+                        <p th:if="${jobskill.getSkill() != null}" th:text="${jobskill.getSkill().getSkill_name()}"> </p>
+                        <p th:if="${jobskill.getSkill() != null}" th:text="${jobskill.getSkill().getSkill_desc()}"> </p>
+                    </div>
+                </td>
+                <td>
+                    <button onclick="()=>{alert('ok')}" > ứng tuyển </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

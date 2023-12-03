@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<style>
+    div.inline {
+        color: black;
+        float: left;
+        padding: 5px 5px;
+        text-decoration: none;
+        display: inline-block;
+    }
+    div.inline a.active {
+        background-color: #FBD603;
+        border:1px solid darkred;
+    }
+</style>
+<head>
+    <meta charset="UTF-8">
+    <title>Candidates with pagination</title>
+    <meta charset="UTF-8">
+    <title>Candidates</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<h1 class="text-center">LIST ADDRESS</h1>
+<table class="table table-hover">
+    <thead>
+       <tr>
+           <th>id</th>
+           <th>city</th>
+           <th>street</th>
+           <th>number</th>
+       </tr>
+    </thead>
+    <tbody>
+    <tr th:each="candidate, iStat : ${AddressPage.content}"
+        th:style="${iStat.odd}? 'font-weight: bold;'"
+        th:alt-title="${iStat.even}? 'even' : 'odd'">
+        <td th:text="${candidate.id}"></td>
+        <td th:text="${candidate.city}"></td>
+        <td th:text="${candidate.street}"></td>
+        <td th:text="${candidate.number}"></td>
+
+
+    </tr>
+    </tbody>
+</table>
+<div class="inline" th:if="${AddressPage.totalPages > 0}" th:each="pageNumber :
+${pageNumbers}">
+    <a th:href="@{/candidates(size=${AddressPage.size}, page=${pageNumber})}"
+       th:text="${pageNumber}"
+       th:class="${pageNumber==AddressPage.number + 1} ? active"></a>
+</div>
+<br/>
+
+</body>
+</html>

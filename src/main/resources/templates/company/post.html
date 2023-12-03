@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Đăng bài</title>
+</head>
+<body>
+<style>
+    table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+</style>
+<div id="wrapper">
+    <div>
+        <h1>Đăng tin tuyển dụng</h1>
+        <h3>Thông tin công ty:</h3>
+        <div>
+            <label>ID:</label>
+           <a th:text="${company.id}"></a>
+            <br>
+            <label>NameCompany:</label>
+            <a th:text="${company.comp_name}"></a>
+            <br>
+            <label>Email:</label>
+            <a th:text="${company.email}"></a>
+
+        </div>
+        <div>
+            <div>
+                <h3>các Job hiện tại của công ty</h3>
+                <form
+                        action="#"
+                        th:action="@{/job/company/{id}(id=${company.id})}"
+                        th:object="${job}"
+                        method="post"
+                >
+                    <input type="text" th:field="*{job_desc}" id="job_desc" placeholder="Job Description">
+                    <input type="text" th:field="*{job_name}" id="job_name" placeholder="Job Name">
+                    <label>chọn skill:</label>
+                    <select th:name="skills">
+                        <option th:each="skill: ${skills}" th:value="${skill.getId()}" th:text="${skill.getSkill_name()}"></option>
+                    </select>
+                    <input class="btn btn-primary" type="submit" value="Đăng tuyển">
+                    <table >
+                        <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>job_desc</th>
+                            <th>job_name</th>
+                            <th>Skill</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="job: ${company.jobs}">
+                            <td th:text="${job.getId()}"></td>
+                            <td th:text="${job.getJob_desc()}"></td>
+                            <td th:text="${job.getJob_name()}"></td>
+                            <td>
+                                <div th:each="jobskill: ${job.getJobSkills()}">
+                                    <p th:if="${jobskill.getSkill() != null}" th:text="${jobskill.getSkill().getSkill_name()}"></p>
+                                    <p th:if="${jobskill.getSkill() != null}" th:text="${jobskill.getSkill().getSkill_desc()}"></p>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+            <div>
+                <h3>các skill</h3>
+                <form
+                        action="#"
+                        th:action="@{/job/company/skill/{id}(id=${company.id})}"
+                        th:object="${skill}"
+                        method="post">
+                    <input type="text" th:field="*{skill_desc}" placeholder="skill Description">
+                    <input type="text" th:field="*{skill_name}" placeholder="skill Name">
+                    <select th:name="typeSkill" class="form-select">
+                        <option th:each="skippType : ${T(fit.iuh.edu.vn.emums.SkillType).values()}" th:value="${skippType.getValue()}" th:text="${skippType}"></option>
+                    </select>
+                    <button class="btn btn-primary mt-3">Add skill</button>
+                </form>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>skill_desc</th>
+                        <th>skill_name</th>
+                        <th>type</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="skill: ${skills}">
+                        <td th:text="${skill.getId()}"></td>
+                        <td th:text="${skill.getSkill_desc()}"></td>
+                        <td th:text="${skill.getSkill_name()}"></td>
+                        <td th:text="${skill.getType().name()}"></td>
+                        <td>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
